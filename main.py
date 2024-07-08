@@ -20,7 +20,7 @@ class Main:
 		self.scene_manager = SceneManager()
 		self.scene_manager.add("menu", Menu(self.screen, self.ui_manager, self.scene_manager))
 		self.scene_manager.add("game", Game(self.screen, self.scene_manager))
-		self.scene_manager.switch("menu")
+		self.scene_manager.switch("game")
 
 	def run(self):
 		last_time = time.time()

@@ -31,6 +31,10 @@ class Menu(Scene):
 			manager = self.ui_manager
 		)
 
+		self.title.hide()
+		self.start_button.hide()
+		self.quit_button.hide()
+
 	def on_entry(self):
 		self.title.show()
 		self.start_button.show()
