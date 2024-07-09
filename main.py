@@ -16,6 +16,7 @@ def main():
 	up = False
 	left = False
 	right = False
+	stick = False
 
 	# Player Velocity
 	PVELY = 0
@@ -42,6 +43,11 @@ def main():
 				
 				if event.key == pygame.K_RIGHT:
 					right = True
+				
+				if event.key == pygame.K_LSHIFT:
+					stick = True
+				
+
 			
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_SPACE:
@@ -52,12 +58,18 @@ def main():
 				
 				if event.key == pygame.K_RIGHT:
 					right = False
+				
+				if event.key == pygame.K_LSHIFT:
+					stick = False
 
 		surface.fill((0,0,0))
 
 		# Drawing player and ground
 		pygame.draw.rect(surface, (255,0,0), pygame.Rect(PX,PY,30,30))
 		pygame.draw.rect(surface, (255,255,255), pygame.Rect(0,GY,800,GH))
+
+		pygame.draw.rect(surface, (255,255,255), pygame.Rect(0,0,10,600))
+		pygame.draw.rect(surface, (255,255,255), pygame.Rect(800 - 10,0,10,600))
 
 		# Kinematics Calc
 		PVELY = PVELY + g * t
@@ -66,6 +78,26 @@ def main():
 		if PY >= (GY - GH):
 			PVELY = 0
 			PY = GY - GH
+		
+		if PX <= 10:
+			PX = 10
+		
+		if (PX <= 10) and stick:
+			PVELY = 0
+		
+		if (PX <= 10) and stick and up:
+			PVELY -= 40
+			PX += HORIZONTAL_SPEED
+		
+		if PX >= (800 - 30):
+			PX = (800 - 30)
+		
+		if (PX >= (800 - 30)) and stick:
+			PVELY = 0
+		
+		if (PX >= (800 - 30)) and stick and up:
+			PVELY -= 40
+			PX -= HORIZONTAL_SPEED
 		
 		if (PY >= (GY - GH)) and up == True:
 			PVELY -= 40
