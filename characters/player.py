@@ -22,6 +22,8 @@ class Player:
 			Dir.down: False
 		}
 
+		self.checkpoint: tuple[int, int] = None
+
 	def event(self, event: pygame.event.Event):
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_a:
@@ -98,6 +100,15 @@ class Player:
 				self.rect.h
 			]
 		)
+
+	def jump_to_checkpoint(self) -> bool:
+		if not self.checkpoint:
+			print("No checkpoint")
+			return False
+
+		self.rect.x = self.checkpoint[0]
+		self.rect.y = self.checkpoint[1]
+		return True
 
 	def __check_for_hit(self, rects: list[pygame.Rect]) -> list[pygame.Rect]:
 		hits = []

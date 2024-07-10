@@ -20,12 +20,12 @@ class Guard:
 		self.start = False
 		self.start_time = time.time()
 
-	def update(self, surface: pygame.Surface, dt: float):
+	def update(self, surface: pygame.Surface, dt: float, camera: tuple[int, int]):
 		self.__cal_delay()
 		self.__cal_walk()
 
 		self.animator.switch(self.dir, self.state)
-		surface.blit(self.animator.get(), (self.rect.x, self.rect.y))
+		surface.blit(self.animator.get(), (self.rect.x - camera[0], self.rect.y - camera[1]))
 
 	def detect_target(self, target: tuple[int, int]) -> bool:
 		if self.dir == Dir.right:
