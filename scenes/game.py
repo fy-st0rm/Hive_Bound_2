@@ -1,16 +1,30 @@
 from globals import *
 from engine import *
 
+class State:
+	walk = "walk"
+	idle = "idle"
+
+class Dir:
+	left = "left"
+	right = "right"
+
 
 class Guard:
-	def __init__(self, img: pygame.Surface, pos: tuple[int, int], delay: int, fov: int, radius: int):
-		self.img = img
+	def __init__(self, sprite: SpriteSheet, pos: tuple[int, int], delay: int, fov: int, radius: int):
+		self.sprite = sprite
 		self.delay = delay
 		self.fov = fov
 		self.radius = radius
+		self.rect = pygame.Rect(pos[0], pos[1], 32, 32)
 
-		self.dir = "right"
-		self.rect = pygame.Rect(pos[0], pos[1], img.get_width(), img.get_height())
+		# Animations
+		self.dir: Dir = Dir.right
+		self.state: State = State.walk
+		self.animator = Animator()
+		self.__init_animation()
+
+		# Guard timings
 		self.start = False
 		self.start_time = time.time()
 		self.color = [255, 255, 0]
@@ -19,13 +33,14 @@ class Guard:
 		self.__cal_delay()
 		self.__cal_walk()
 
-		surface.blit(self.img, (self.rect.x, self.rect.y))
+		self.animator.switch(self.dir, self.state)
+		surface.blit(self.animator.get(), (self.rect.x, self.rect.y))
 
 		mp = list(pygame.mouse.get_pos())
 		mp[0] = mp[0] / WIN_WIDTH * 266
 		mp[1] = mp[1] / WIN_HEIGHT * 200
 
-		if self.dir == "right":
+		if self.dir == Dir.right:
 			head = [self.rect.x + self.rect.w / 2, self.rect.y]
 			half_ang = (self.fov / 2) * (math.pi / 180)
 			ang = math.atan2(mp[1] - head[1], mp[0] - head[0]) * 180 / math.pi
@@ -53,22 +68,36 @@ class Guard:
 			self.start_time = time.time()
 
 		if time.time() - self.start_time > self.delay:
-			if self.dir == "right":
-				self.dir = "left"
-				self.img = pygame.transform.flip(self.img, True, False)
+			if self.dir == Dir.right:
+				self.dir = Dir.left
 			else:
-				self.dir = "right"
-				self.img = pygame.transform.flip(self.img, True, False)
+				self.dir = Dir.right
 			self.start_time = time.time()
 
 	def __cal_walk(self):
 		if time.time() - self.start_time >= self.delay / 3:
+			self.state = State.idle
 			return
 
-		if self.dir == "right":
+		self.state = State.walk
+
+		if self.dir == Dir.right:
 			self.rect.x += 1
 		else:
 			self.rect.x -= 1
+
+	def __init_animation(self):
+		# Walk animation
+		self.animator.add(Dir.right, State.walk, self.sprite.load_strip([0, 0, 32, 32], 3), 1)
+		self.animator.add(Dir.left, State.walk, [
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([0, 0, 32, 32], 3)
+		], 1)
+
+		# Idle animation
+		self.animator.add(Dir.right, State.idle, self.sprite.load_strip([0, 1, 32, 32], 2), 0.3)
+		self.animator.add(Dir.left, State.idle, [
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([0, 1, 32, 32], 2)
+		], 0.3)
 
 
 class Game(Scene):
@@ -78,8 +107,8 @@ class Game(Scene):
 
 		self.game_surface = pygame.Surface((266, 200))
 
-		guard_img = pygame.image.load("assets/Guard.png")
-		self.guard1 = Guard(guard_img, (266 / 2, 200 / 2), 5, 90, 300)
+		sprite = SpriteSheet("assets/Guard-sheet.png")
+		self.guard1 = Guard(sprite, (266 / 3, 200 / 2), 5, 90, 300)
 
 	def on_entry(self):
 		print("Entered game")

@@ -2,7 +2,8 @@ from engine import *
 
 
 class AnimationFrame:
-	def __init__(self, state: str, speed: float, frames: list[pygame.Surface]):
+	def __init__(self, dir: str, state: str, speed: float, frames: list[pygame.Surface]):
+		self.dir = dir
 		self.state = state
 		self.speed = speed
 		self.frames = frames
@@ -20,7 +21,7 @@ class AnimationFrame:
 		return self.frames[self.index]
 
 	def __str__(self):
-		return f"State: {self.state}"
+		return f"State: {self.state}, Dir: {self.dir}"
 
 
 class Animator:
@@ -41,12 +42,12 @@ class Animator:
 			self.frames.update({ dir: {} })
 
 		self.frames[dir].update({
-				state: AnimationFrame(state, speed, frames)
+				state: AnimationFrame(dir, state, speed, frames)
 		})
 
 	def switch(self, dir: str, state: str):
 		if self.curr_frame:
-			if self.curr_frame.state == state:
+			if self.curr_frame.state == state and self.curr_frame.dir == dir:
 				return
 
 		self.curr_frame = self.frames[dir][state]
