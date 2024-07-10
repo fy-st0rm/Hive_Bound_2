@@ -55,15 +55,15 @@ clock = pygame.time.Clock()
 # Paths to background images (replace these with your actual image paths)
 image_paths = {
 
-    "./Ultra-Rich.png":3,
-        "./Medium-Modern.png":3,
-    "./Low-Rags.png":3
+    "./assets/Ultra-Rich.png":3,
+        "./assets/Medium-Modern.png":3,
+    "./assets/Low-Rags.png":3
 }
 
 
 # Initialize Infinite Background
 background = InfiniteBackground(screen, image_paths)
-player = Player(512,512)
+player = Player(512,1024-50)
 
 # Game loop
 running = True
