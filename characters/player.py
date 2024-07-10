@@ -30,7 +30,7 @@ class Player:
 				self.movement[Dir.right] = True
 			elif event.key == pygame.K_SPACE:
 				self.movement[Dir.jump] = True
-				if self.airtime < 10:
+				if self.airtime < 3:
 					self.vert_movement = -5
 			elif event.key == pygame.K_LSHIFT:
 				self.movement[Dir.stick] = True
@@ -55,7 +55,8 @@ class Player:
 		self,
 		surface: pygame.Surface,
 		rects: list[pygame.Rect],
-		dt: float
+		dt: float,
+		camera: list[int, int]
 	):
 		delta_pos = [0, 0]
 		# Updating the delta position if the player is not stuck to wall
@@ -70,6 +71,9 @@ class Player:
 				delta_pos[0] += self.speed * dt
 
 			delta_pos[1] += self.vert_movement
+		else:
+			# Reset the airtime when stuck to wall
+			self.airtime = 0
 
 		# Decreasing vertical movement
 		self.vert_movement += 0.3
@@ -84,7 +88,16 @@ class Player:
 		else:
 			self.airtime += 1
 
-		pygame.draw.rect(surface, [255, 255, 0], self.rect)
+		pygame.draw.rect(
+			surface,
+			[255, 255, 0],
+			[
+				self.rect.x - camera[0],
+				self.rect.y - camera[1],
+				self.rect.w,
+				self.rect.h
+			]
+		)
 
 	def __check_for_hit(self, rects: list[pygame.Rect]) -> list[pygame.Rect]:
 		hits = []
@@ -99,6 +112,9 @@ class Player:
 			rects: list[pygame.Rect],
 			delta_pos: tuple[int, int]
 		):
+		self.coll_dir[Dir.up] = False
+		self.coll_dir[Dir.down] = False
+
 		self.rect.x += delta_pos[0]
 		hits = self.__check_for_hit(rects)
 		for hit in hits:
