@@ -27,7 +27,6 @@ class Guard:
 		# Guard timings
 		self.start = False
 		self.start_time = time.time()
-		self.color = [255, 255, 0]
 
 	def update(self, surface: pygame.Surface, dt: float):
 		self.__cal_delay()
@@ -36,31 +35,22 @@ class Guard:
 		self.animator.switch(self.dir, self.state)
 		surface.blit(self.animator.get(), (self.rect.x, self.rect.y))
 
-		mp = list(pygame.mouse.get_pos())
-		mp[0] = mp[0] / WIN_WIDTH * 266
-		mp[1] = mp[1] / WIN_HEIGHT * 200
-
+	def detect_target(self, target: tuple[int, int]) -> bool:
 		if self.dir == Dir.right:
 			head = [self.rect.x + self.rect.w / 2, self.rect.y]
 			half_ang = (self.fov / 2) * (math.pi / 180)
-			ang = math.atan2(mp[1] - head[1], mp[0] - head[0]) * 180 / math.pi
+			ang = math.atan2(target[1] - head[1], target[0] - head[0]) * 180 / math.pi
 		else:
 			head = [self.rect.x + self.rect.w / 2, self.rect.y]
 			half_ang = math.pi - ((self.fov / 2) * (math.pi / 180))
-			ang = math.atan2(head[1] - mp[1], head[0] - mp[0]) * 180 / math.pi
+			ang = math.atan2(head[1] - target[1], head[0] - target[0]) * 180 / math.pi
 
 		x  = head[0] + self.radius * math.cos(half_ang)
 		y1 = head[1] + self.radius * math.sin(half_ang)
 		y2 = head[1] - self.radius * math.sin(half_ang)
 
-		pygame.draw.line(surface, self.color, [head[0], head[1]], [x, y1])
-		pygame.draw.line(surface, self.color, [head[0], head[1]], [x, y2])
-
-		dist = math.sqrt(math.pow(head[1] - mp[1], 2) + math.pow(head[0] - mp[0], 2))
-		if dist <= self.radius and -45 <= ang <= 45:
-			self.color = [255, 0, 0]
-		else:
-			self.color = [255, 255, 0]
+		dist = math.sqrt(math.pow(head[1] - target[1], 2) + math.pow(head[0] - target[0], 2))
+		return (dist <= self.radius and -45 <= ang <= 45)
 
 	def __cal_delay(self):
 		if not self.start:
@@ -108,7 +98,8 @@ class Game(Scene):
 		self.game_surface = pygame.Surface((266, 200))
 
 		sprite = SpriteSheet("assets/Guard-sheet.png")
-		self.guard1 = Guard(sprite, (266 / 3, 200 / 2), 5, 90, 300)
+		self.guard1 = Guard(sprite, (266 / 3, 50), 5, 45, 300)
+		self.guard2 = Guard(sprite, (266 / 3, 100), 3, 45, 300)
 
 	def on_entry(self):
 		print("Entered game")
@@ -123,7 +114,9 @@ class Game(Scene):
 
 	def on_update(self, dt: float):
 		self.game_surface.fill((165, 165, 165))
+
 		self.guard1.update(self.game_surface, dt)
+		self.guard2.update(self.game_surface, dt)
 
 		self.surface.blit(
 			pygame.transform.scale(
