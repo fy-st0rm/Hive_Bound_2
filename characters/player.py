@@ -4,7 +4,7 @@ from engine import *
 
 class Player:
 	def __init__(self, pos: tuple[int, int]):
-		self.rect = pygame.Rect(pos[0], pos[1], 32, 32)
+		self.rect = pygame.Rect(pos[0], pos[1], 16, 32)
 
 		self.speed = 3
 		self.vert_movement = 0
