@@ -10,7 +10,7 @@ class Main:
 		self.height = height
 		self.fps    = fps
 
-		self.screen = pygame.display.set_mode((self.width, self.height))
+		self.screen = pygame.display.set_mode((self.width, self.height), pygame.SRCALPHA)
 
 		self.running = True
 		self.clock = pygame.time.Clock()
@@ -31,7 +31,7 @@ class Main:
 			dt *= self.fps
 			last_time = time.time()
 
-			self.screen.fill((0, 0, 0))
+			self.screen.fill((90, 90, 90))
 
 			self.poll_events()
 

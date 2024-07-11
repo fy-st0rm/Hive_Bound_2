@@ -48,13 +48,6 @@ class Game(Scene):
 			(-self.camera[0], -self.camera[1])
 		)
 
-		# r = pygame.Rect(0, 150, 300, 20)
-		# r2 = pygame.Rect(0, 68, 100, 10)
-		# r3 = pygame.Rect(200, 0, 20, 200)
-		# pygame.draw.rect(self.game_surface, (255, 0, 0), [r.x - self.camera[0], r.y - self.camera[1], r.w, r.h])
-		# pygame.draw.rect(self.game_surface, (255, 0, 0), [r2.x - self.camera[0], r2.y - self.camera[1], r2.w, r2.h])
-		# pygame.draw.rect(self.game_surface, (255, 0, 0), [r3.x - self.camera[0], r3.y - self.camera[1], r3.w, r3.h])
-
 		# for r in self.map["rects"]:
 		# 	pygame.draw.rect(self.game_surface, (255, 0, 0), [r.x - self.camera[0], r.y - self.camera[1], r.w, r.h])
 
@@ -66,6 +59,7 @@ class Game(Scene):
 				self.game_surface,
 				(self.surface.get_width(), self.surface.get_height())
 			),
-			(0, 0)
+			(0, 0),
+			special_flags=pygame.BLEND_RGBA_MULT
 		)
 
