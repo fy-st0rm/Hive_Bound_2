@@ -12,10 +12,10 @@ class Game(Scene):
 		self.game_surface = pygame.Surface((SURFACE_WIDTH, SURFACE_HEIGHT))
 
 		self.checkpoint = (0, 100)
-		self.player = Player((100, 0))
+		self.player = Player((100, 1500 - 32))
 		self.player.checkpoint = self.checkpoint
 
-		self.guard = Guard(Sprite.guard_sprite, (65, 227 - 32), 3, 30, 100)
+		self.guard = Guard(Sprite.guard_sprite, (65, 1500 - 22 - 32), 3, 30, 100)
 
 		with open("./assets/map/map.json", "r") as f:
 			self.map = json.load(f)
@@ -51,9 +51,9 @@ class Game(Scene):
 			(-self.camera[0], -self.camera[1])
 		)
 
-		# for r in self.map["rects"]:
-		# 	pygame.draw.rect(self.game_surface, (255, 0, 0), [r.x - self.camera[0], r.y - self.camera[1], r.w, r.h])
-
+#		for r in self.map["rects"]:
+#			pygame.draw.rect(self.game_surface, (255, 0, 0), [r.x - self.camera[0], r.y - self.camera[1], r.w, r.h])
+#
 		self.surface.blit(
 			pygame.transform.scale(
 				self.game_surface,

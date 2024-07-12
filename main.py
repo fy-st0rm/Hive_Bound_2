@@ -37,8 +37,9 @@ class Main:
 
 			t = self.clock.tick(self.fps) / 1000.0
 
-			self.scene_manager.update(dt)
+			self.scene_manager.update(t)
 			self.ui_manager.update(t)
+			# print(t)
 			self.ui_manager.draw_ui(self.screen)
 
 			pygame.display.update()

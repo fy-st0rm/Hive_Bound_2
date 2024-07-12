@@ -46,12 +46,6 @@ class Player:
 				self.movement[Dir.jump] = False
 			elif event.key == pygame.K_LSHIFT:
 				self.movement[Dir.stick] = False
-				self.coll_dir = {
-					Dir.left: False,
-					Dir.right: False,
-					Dir.up: False,
-					Dir.down: False
-				}
 
 	def update(
 		self,
@@ -68,9 +62,9 @@ class Player:
 			)
 		):
 			if self.movement[Dir.left]:
-				delta_pos[0] -= self.speed * dt
+				delta_pos[0] -= self.speed
 			if self.movement[Dir.right]:
-				delta_pos[0] += self.speed * dt
+				delta_pos[0] += self.speed
 
 			delta_pos[1] += self.vert_movement
 		else:
@@ -82,7 +76,7 @@ class Player:
 		if self.vert_movement > 3:
 			self.vert_movement = 3
 
-		self.__check_collision(rects, delta_pos)
+		self.__check_collision(rects, delta_pos, dt)
 
 		# Decrease air time if player is in air
 		if self.coll_dir[Dir.down]:
@@ -121,8 +115,14 @@ class Player:
 	def __check_collision(
 			self,
 			rects: list[pygame.Rect],
-			delta_pos: tuple[int, int]
+			delta_pos: tuple[int, int],
+			dt: float
 		):
+
+		if not self.movement[Dir.stick]:
+			self.coll_dir[Dir.left] = False
+			self.coll_dir[Dir.right] = False
+
 		self.coll_dir[Dir.up] = False
 		self.coll_dir[Dir.down] = False
 
