@@ -17,7 +17,7 @@ class Game(Scene):
 
 		self.guard = Guard(Sprite.guard_sprite, (65, 227 - 32), 3, 30, 100)
 
-		with open("./assets/map/map_1.json", "r") as f:
+		with open("./assets/map/map.json", "r") as f:
 			self.map = json.load(f)
 			rects = []
 			for r in self.map["rects"]:
@@ -43,16 +43,16 @@ class Game(Scene):
 		self.camera[0] += (self.player.rect.x - self.camera[0] - SURFACE_WIDTH / 2) / 10
 		self.camera[1] += (self.player.rect.y - self.camera[1] - SURFACE_HEIGHT / 1.5) / 10
 
+		self.guard.update(self.game_surface, dt, self.camera)
+		self.player.update(self.game_surface, self.map["rects"], dt, self.camera)
+
 		self.game_surface.blit(
-			self.map_sprite.image_at(0, 0, 250, 250),
+			self.map_sprite.image_at(0, 0, 250, 1500),
 			(-self.camera[0], -self.camera[1])
 		)
 
 		# for r in self.map["rects"]:
 		# 	pygame.draw.rect(self.game_surface, (255, 0, 0), [r.x - self.camera[0], r.y - self.camera[1], r.w, r.h])
-
-		self.guard.update(self.game_surface, dt, self.camera)
-		self.player.update(self.game_surface, self.map["rects"], dt, self.camera)
 
 		self.surface.blit(
 			pygame.transform.scale(
