@@ -15,7 +15,7 @@ for map in maps:
 	map_path = f"./assets/map_imgs/{map}"
 
 	sheet = SpriteSheet(map_path)
-	rect_image = sheet.image_at(0, 1, 250, 1500)
+	rect_image = sheet.image_at(0, 1, 300, 1500)
 	rect_image = pygame.transform.flip(rect_image, True, False)
 	rect_image = pygame.transform.rotate(rect_image, 90)
 	image_data = pygame.surfarray.array3d(rect_image)
