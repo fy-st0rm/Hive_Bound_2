@@ -63,6 +63,13 @@ class Player:
 		camera: list[int, int]
 	):
 		delta_pos = [0, 0]
+
+		if delta_pos[0] == 0:
+			self.state = State.idle;
+
+		if self.vert_movement < 0:
+			self.state = State.ascent
+
 		# Updating the delta position if the player is not stuck to wall
 		if not (
 			self.movement[Dir.stick] and (
@@ -82,6 +89,7 @@ class Player:
 		else:
 			# Reset the airtime when stuck to wall
 			self.airtime = 0
+			self.state = State.stick
 
 		# Decreasing vertical movement
 		self.vert_movement += 0.3
@@ -96,20 +104,11 @@ class Player:
 		else:
 			self.airtime += 1
 
-		if delta_pos[0] == 0 and delta_pos[1] == 0:
-			self.state = State.idle;
-
 		self.animator.switch(self.dir, self.state)
 		surface.blit(
 			self.animator.get(),
 			(self.rect.x - camera[0], self.rect.y - camera[1])
 		)
-		pygame.draw.rect(surface, (255, 255, 0), [
-			self.rect.x - camera[0],
-			self.rect.y - camera[1],
-			self.rect.w,
-			self.rect.h
-		])
 
 	def jump_to_checkpoint(self) -> bool:
 		if not self.checkpoint:
@@ -164,15 +163,27 @@ class Player:
 
 	def __init_animation(self):
 		# Idle animation
-		self.animator.add(Dir.right, State.idle, self.sprite.load_strip([0, 0, 18, 25], 3), 1)
+		self.animator.add(Dir.right, State.idle, self.sprite.load_strip([0, 0, 18, 25], 1), 1)
 		self.animator.add(Dir.left, State.idle, [
-			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([0, 0, 18, 25], 3)
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([0, 0, 18, 25], 1)
 		], 1)
 
 		# Walk animation
 		self.animator.add(Dir.right, State.walk, self.sprite.load_strip([3, 0, 18, 25], 2), 1)
 		self.animator.add(Dir.left, State.walk, [
 			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([3, 0, 18, 25], 2)
+		], 1)
+
+		# Jump ascent animation
+		self.animator.add(Dir.right, State.ascent, self.sprite.load_strip([1, 0, 18, 25], 1), 1)
+		self.animator.add(Dir.left, State.ascent, [
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([1, 0, 18, 25], 1)
+		], 1)
+
+		# Stick animation
+		self.animator.add(Dir.right, State.stick, self.sprite.load_strip([5, 0, 18, 25], 1), 1)
+		self.animator.add(Dir.left, State.stick, [
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([5, 0, 18, 25], 1)
 		], 1)
 
 

@@ -12,7 +12,7 @@ class State:
 	idle = "idle"
 	stick = "stick"
 	ascent = "ascent"
-	decent = "descent"
+	descent = "descent"
 
 
 class Dir:
