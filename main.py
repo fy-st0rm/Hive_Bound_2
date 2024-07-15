@@ -31,7 +31,7 @@ class Main:
 			dt *= self.fps
 			last_time = time.time()
 
-			self.screen.fill((90, 90, 90))
+			self.screen.fill((0, 0, 0))
 
 			self.poll_events()
 

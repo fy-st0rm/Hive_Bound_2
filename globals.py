@@ -10,6 +10,9 @@ FPS = 60
 class State:
 	walk = "walk"
 	idle = "idle"
+	stick = "stick"
+	ascent = "ascent"
+	decent = "descent"
 
 
 class Dir:
@@ -23,3 +26,4 @@ class Dir:
 
 class Sprite:
 	guard_sprite = SpriteSheet("assets/Guard-sheet.png")
+	player_sprite = SpriteSheet("assets/Player-sheet.png")

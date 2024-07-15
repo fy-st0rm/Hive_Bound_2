@@ -12,16 +12,28 @@ class Game(Scene):
 		self.scene_manager = scene_manager
 
 		self.camera = [0, 0]
-		self.game_surface = pygame.Surface((SURFACE_WIDTH, SURFACE_HEIGHT))
 
-		self.checkpoint = (0, 100)
-		self.player = Player((100, 1500 - 32))
+		self.game_surface = pygame.Surface(
+			(SURFACE_WIDTH, SURFACE_HEIGHT),
+			pygame.SRCALPHA
+		)
+		self.game_surface.set_alpha(50)
+
+		self.light_surface = pygame.Surface(
+			(SURFACE_WIDTH, SURFACE_HEIGHT),
+			pygame.SRCALPHA
+		)
+		self.light_surface.set_colorkey((0,0,0))
+
+
+		self.checkpoint = (100, 1500 - 64)
+		self.player = Player(Sprite.player_sprite, (100, 1500 - 32))
 		self.player.checkpoint = self.checkpoint
 
 		self.left = self.right = self.up = self.down = False
 
 		# Loading map
-		with open("./assets/map/map.json", "r") as f:
+		with open("./assets/map/map_textured.json", "r") as f:
 			self.map = json.load(f)
 			rects = []
 			for r in self.map["rects"]:
@@ -39,8 +51,12 @@ class Game(Scene):
 			delay = guard_pos[i]["delay"]
 			f = guard_pos[i]["f"]
 			self.guards.append(
-				Guard(Sprite.guard_sprite, (pos[0], pos[1] - 32), delay, f, 30, 100)
+				Guard(Sprite.guard_sprite, (pos[0], pos[1] - 32), delay, f, 30, 200)
 			)
+
+		self.guard = Guard(
+			Sprite.guard_sprite,
+			(0, 1500 - 128), 5, 2, 30, 200)
 
 	def on_entry(self):
 		print("Entered game")
@@ -74,6 +90,7 @@ class Game(Scene):
 
 	def on_update(self, dt: float):
 		self.game_surface.fill((0, 0, 0))
+		self.light_surface.fill((0, 0, 0))
 
 		if FREE_CAMERA:
 			if self.left:
@@ -94,19 +111,30 @@ class Game(Scene):
 		)
 
 		for guard in self.guards:
-			guard.update(self.game_surface, dt, self.camera)
+			guard.update(self.game_surface, self.light_surface, dt, self.camera)
+			if guard.detect_target(
+				pygame.Rect(
+					self.player.rect.x - self.camera[0],
+					self.player.rect.y - self.camera[1],
+					self.player.rect.w, self.player.rect.h
+				), self.camera
+			):
+				self.player.jump_to_checkpoint()
 
 		self.player.update(self.game_surface, self.map["rects"], dt, self.camera)
 
-#		for r in self.map["rects"]:
-#			pygame.draw.rect(self.game_surface, (255, 0, 0), [r.x - self.camera[0], r.y - self.camera[1], r.w, r.h])
-#
 		self.surface.blit(
 			pygame.transform.scale(
 				self.game_surface,
 				(self.surface.get_width(), self.surface.get_height())
 			),
-			(0, 0),
-			special_flags=pygame.BLEND_RGBA_MULT
+			(0, 0)
+		)
+		self.surface.blit(
+			pygame.transform.scale(
+				self.light_surface,
+				(self.surface.get_width(), self.surface.get_height())
+			),
+			(0, 0)
 		)
 

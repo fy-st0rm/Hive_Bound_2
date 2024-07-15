@@ -3,8 +3,9 @@ from engine import *
 
 
 class Player:
-	def __init__(self, pos: tuple[int, int]):
-		self.rect = pygame.Rect(pos[0], pos[1], 16, 32)
+	def __init__(self, sprite: SpriteSheet, pos: tuple[int, int]):
+		self.sprite = sprite
+		self.rect = pygame.Rect(pos[0], pos[1], 18, 25)
 
 		self.speed = 3
 		self.vert_movement = 0
@@ -23,6 +24,13 @@ class Player:
 		}
 
 		self.checkpoint: tuple[int, int] = None
+
+		# Animation
+		self.state: State = State.idle
+		self.dir: Dir = Dir.right
+		self.animator = Animator()
+
+		self.__init_animation()
 
 	def event(self, event: pygame.event.Event):
 		if event.type == pygame.KEYDOWN:
@@ -63,8 +71,12 @@ class Player:
 		):
 			if self.movement[Dir.left]:
 				delta_pos[0] -= self.speed
+				self.dir = Dir.left
+				self.state = State.walk
 			if self.movement[Dir.right]:
 				delta_pos[0] += self.speed
+				self.dir = Dir.right
+				self.state = State.walk
 
 			delta_pos[1] += self.vert_movement
 		else:
@@ -84,16 +96,20 @@ class Player:
 		else:
 			self.airtime += 1
 
-		pygame.draw.rect(
-			surface,
-			[255, 255, 0],
-			[
-				self.rect.x - camera[0],
-				self.rect.y - camera[1],
-				self.rect.w,
-				self.rect.h
-			]
+		if delta_pos[0] == 0 and delta_pos[1] == 0:
+			self.state = State.idle;
+
+		self.animator.switch(self.dir, self.state)
+		surface.blit(
+			self.animator.get(),
+			(self.rect.x - camera[0], self.rect.y - camera[1])
 		)
+		pygame.draw.rect(surface, (255, 255, 0), [
+			self.rect.x - camera[0],
+			self.rect.y - camera[1],
+			self.rect.w,
+			self.rect.h
+		])
 
 	def jump_to_checkpoint(self) -> bool:
 		if not self.checkpoint:
@@ -145,4 +161,18 @@ class Player:
 			if delta_pos[1] < 0:
 				self.rect.top = hit.bottom
 				self.coll_dir[Dir.up] = True
+
+	def __init_animation(self):
+		# Idle animation
+		self.animator.add(Dir.right, State.idle, self.sprite.load_strip([0, 0, 18, 25], 3), 1)
+		self.animator.add(Dir.left, State.idle, [
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([0, 0, 18, 25], 3)
+		], 1)
+
+		# Walk animation
+		self.animator.add(Dir.right, State.walk, self.sprite.load_strip([3, 0, 18, 25], 2), 1)
+		self.animator.add(Dir.left, State.walk, [
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([3, 0, 18, 25], 2)
+		], 1)
+
 
