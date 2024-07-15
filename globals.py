@@ -1,4 +1,6 @@
 from engine.sprite_sheet import SpriteSheet
+import pygame
+
 
 WIN_WIDTH  = 800
 WIN_HEIGHT = 600
@@ -27,3 +29,7 @@ class Dir:
 class Sprite:
 	guard_sprite = SpriteSheet("assets/Guard-sheet.png")
 	player_sprite = SpriteSheet("assets/Player-sheet.png")
+
+pygame.mixer.init();
+pygame.mixer.music.load('./f_teleport.wav')
+jump_sound=pygame.mixer.Sound("./f_teleport.wav")

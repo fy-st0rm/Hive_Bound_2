@@ -17,7 +17,7 @@ class Game(Scene):
 			(SURFACE_WIDTH, SURFACE_HEIGHT),
 			pygame.SRCALPHA
 		)
-		self.game_surface.set_alpha(50)
+		self.game_surface.set_alpha(100)
 
 		self.light_surface = pygame.Surface(
 			(SURFACE_WIDTH, SURFACE_HEIGHT),
