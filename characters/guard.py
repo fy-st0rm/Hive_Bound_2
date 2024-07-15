@@ -3,10 +3,11 @@ from globals import *
 
 
 class Guard:
-	def __init__(self, sprite: SpriteSheet, pos: tuple[int, int], delay: int, fov: int, radius: int):
+	def __init__(self, sprite: SpriteSheet, pos: tuple[int, int], delay: int, walk_factor: int, fov: int, radius: int):
 		self.sprite = sprite
 		self.delay = delay
 		self.fov = fov
+		self.walk_factor = 1 / walk_factor
 		self.radius = radius
 		self.rect = pygame.Rect(pos[0], pos[1], 32, 32)
 
@@ -57,7 +58,7 @@ class Guard:
 			self.start_time = time.time()
 
 	def __cal_walk(self):
-		if time.time() - self.start_time >= self.delay / 3:
+		if time.time() - self.start_time >= self.delay * self.walk_factor:
 			self.state = State.idle
 			return
 
