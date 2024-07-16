@@ -4,7 +4,8 @@ from characters import *
 
 
 FREE_CAMERA = False
-
+pygame.mixer.music.load('/home/shri/.gitbuilds/GameJam2/assets/sounds/f_background.mp3')
+pygame.mixer.music.play(-1)
 
 class Game(Scene):
 	def __init__(self, surface: pygame.Surface, scene_manager: SceneManager):
@@ -31,6 +32,11 @@ class Game(Scene):
 		self.player.checkpoint = self.checkpoint
 
 		self.left = self.right = self.up = self.down = False
+        
+        #loading sound
+        
+
+
 
 		# Loading map
 		with open("./assets/map/map_textured.json", "r") as f:

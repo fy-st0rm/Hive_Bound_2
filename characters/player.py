@@ -1,7 +1,6 @@
 from globals import *
 from engine import *
 
-
 class Player:
 	def __init__(self, sprite: SpriteSheet, pos: tuple[int, int]):
 		self.sprite = sprite
@@ -40,7 +39,8 @@ class Player:
 				self.movement[Dir.right] = True
 			elif event.key == pygame.K_SPACE:
 				self.movement[Dir.jump] = True
-				if self.airtime < 3:
+				pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/sounds/f_jump.wav"),maxtime=600)
+			if self.airtime < 3:
 					self.vert_movement = -5
 			elif event.key == pygame.K_LSHIFT:
 				self.movement[Dir.stick] = True

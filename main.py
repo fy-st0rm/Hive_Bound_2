@@ -57,7 +57,10 @@ class Main:
 
 
 if __name__ == "__main__":
+
 	pygame.init()
 	main = Main(WIN_WIDTH, WIN_HEIGHT, FPS)
+	pygame.mixer.music.load(os.path.join(os.getcwd(),'assets/sounds','f_background.mp3'))
+	pygame.mixer.Channel(1).play(pygame.mixer.Sound('assets/sounds/f_background.mp3'), loops=-1)
 	main.run()
 	main.quit()
