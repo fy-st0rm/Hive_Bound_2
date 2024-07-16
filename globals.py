@@ -2,6 +2,10 @@ from engine.sprite_sheet import SpriteSheet
 import pygame
 import os
 
+pygame.init()
+pygame.font.init()
+
+
 WIN_WIDTH  = 800
 WIN_HEIGHT = 600
 SURFACE_WIDTH = 266
@@ -29,7 +33,18 @@ class Dir:
 class Sprite:
 	guard_sprite = SpriteSheet("assets/Guard-sheet.png")
 	player_sprite = SpriteSheet("assets/Player-sheet.png")
+	a_key_sprite = pygame.image.load("assets/keys/A-Key.png")
+	d_key_sprite = pygame.image.load("assets/keys/D-Key.png")
+	space_key_sprite = pygame.image.load("assets/keys/Space-Key.png")
+	shift_key_sprite = pygame.image.load("assets/keys/Shift-Key.png")
+	escape_key_sprite = pygame.image.load("assets/keys/Esc-Key.png")
+
+
+class Font:
+	big = pygame.font.Font("assets/font.ttf", 50)
+	mid = pygame.font.Font("assets/font.ttf", 35)
 
 pygame.mixer.init();
 pygame.mixer.Channel(0).set_volume(1)
 pygame.mixer.Channel(1).set_volume(.3)
+

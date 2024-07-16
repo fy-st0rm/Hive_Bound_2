@@ -2,6 +2,8 @@ from globals import *
 from engine import *
 from scenes.game import Game
 from scenes.menu import Menu
+from scenes.end  import End
+from scenes.controls import Controls
 
 
 class Main:
@@ -19,8 +21,10 @@ class Main:
 
 		self.scene_manager = SceneManager()
 		self.scene_manager.add("menu", Menu(self.screen, self.ui_manager, self.scene_manager))
+		self.scene_manager.add("controls", Controls(self.screen, self.scene_manager))
 		self.scene_manager.add("game", Game(self.screen, self.scene_manager))
-		self.scene_manager.switch("game")
+		self.scene_manager.add("end", End(self.screen, self.scene_manager))
+		self.scene_manager.switch("menu")
 
 	def run(self):
 		last_time = time.time()

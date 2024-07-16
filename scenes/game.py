@@ -24,20 +24,14 @@ class Game(Scene):
 		)
 		self.light_surface.set_colorkey((0,0,0))
 
-
-		self.checkpoint = (100, 1500 - 64)
-		self.player = Player(Sprite.player_sprite, (100, 1500 - 32))
+		self.checkpoint = (100, 1800 - 64)
+		self.player = Player(Sprite.player_sprite, (100, 1800 - 32))
 		self.player.checkpoint = self.checkpoint
 
 		self.left = self.right = self.up = self.down = False
-        
-        #loading sound
-        
-
-
 
 		# Loading map
-		with open("./assets/map/map_textured.json", "r") as f:
+		with open("./assets/map/map.json", "r") as f:
 			self.map = json.load(f)
 			rects = []
 			for r in self.map["rects"]:
@@ -45,7 +39,7 @@ class Game(Scene):
 			self.map["rects"] = rects
 
 		self.map_sprite = SpriteSheet(self.map["image"])
-		self.map_img = self.map_sprite.image_at(0, 0, 300, 1500)
+		self.map_img = self.map_sprite.image_at(0, 0, 300, 1800)
 
 		# Loading up guards
 		guard_pos = self.map["guard_pos"]
@@ -126,6 +120,25 @@ class Game(Scene):
 				self.player.jump_to_checkpoint()
 
 		self.player.update(self.game_surface, self.map["rects"], dt, self.camera)
+
+		# Drawing white screen when reached at home
+		if self.player.rect.y <= 250:
+			pygame.draw.rect(
+				self.light_surface,
+				[255, 255, 255, 255 - self.player.rect.y],
+				(0, 0, self.light_surface.get_width(), self.light_surface.get_height())
+			)
+
+		# Ending
+		if self.player.rect.y < 50:
+			self.scene_manager.switch("end")
+
+		# for r in self.map["rects"]:
+		# 	pygame.draw.rect(
+		# 		self.game_surface,
+		# 		[255, 0, 0],
+		# 		[r.x - self.camera[0], r.y - self.camera[1], r.w, r.h]
+		# 	)
 
 		self.surface.blit(
 			pygame.transform.scale(
