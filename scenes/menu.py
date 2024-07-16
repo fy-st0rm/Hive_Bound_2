@@ -1,6 +1,35 @@
 from globals import *
 from engine import *
 
+class InfiniteBackground:
+	def __init__(self, screen, scroll_speed=5):
+		self.screen = screen
+		self.scroll_speed = scroll_speed
+		self.bg_image = SpriteSheet("./assets/map_imgs/map.png")
+		self.images = [
+			pygame.transform.scale(i, screen.get_size())
+			for i in self.bg_image.load_strip_y([0, 0, 300, 300], 6)
+		]
+		self.map_height = screen.get_height()
+		self.scroll = 0
+
+	def update(self, direction):
+		if direction == 'down':
+			self.scroll += self.scroll_speed
+		elif direction == 'up':
+			self.scroll -= self.scroll_speed
+
+	def draw(self):
+		num_tiles = (self.scroll // self.map_height) + 1
+		y_offset = self.scroll % self.map_height
+
+		tile_index = (num_tiles - 1) % len(self.images)
+		self.screen.blit(self.images[tile_index], (0, -y_offset))
+
+		if y_offset>0:
+			next_tile_index = num_tiles % len(self.images)
+			self.screen.blit(self.images[next_tile_index], (0, self.map_height - y_offset))
+
 
 class Menu(Scene):
 	def __init__(
@@ -12,6 +41,8 @@ class Menu(Scene):
 		self.surface = surface
 		self.ui_manager = ui_manager
 		self.scene_manager = scene_manager
+
+		self.bg = InfiniteBackground(self.surface)
 
 		self.title = pygame_gui.elements.UILabel(
 			relative_rect = pygame.Rect(WIN_WIDTH / 2 - 200 / 2, 100, 200, 100),
@@ -67,4 +98,6 @@ class Menu(Scene):
 
 	def on_update(self, dt: float):
 		self.surface.fill((0, 0, 0))
+		self.bg.update("down")
+		self.bg.draw()
 

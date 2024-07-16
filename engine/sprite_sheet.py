@@ -38,6 +38,13 @@ class SpriteSheet:
 			rect[0] += 1
 		return images
 
+	def load_strip_y(self, rect: pygame.Rect, image_count: int) -> list[pygame.Surface]:
+		images = []
+		for i in range(image_count):
+			images.append(self.image_at(rect[0], rect[1], rect[2], rect[3]))
+			rect[1] += 1
+		return images
+
 """
 	# Load a specific image from a specific rectangle
 	def image_at(self, rectangle, colorkey=None):
