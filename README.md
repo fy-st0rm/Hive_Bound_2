@@ -1,18 +1,9 @@
-# Game location:
-## Hive City
+# Hive Bound 2
 
-# Objective:
-##	- To know whats outside the hive city
-##	- Escape from judiciary of that city
+![story](./screenshots/2.png)
+![menu](./screenshots/1.png)
+![game](./screenshots/3.png)
 
-# Mechanics:
-##	- Jump
-##	- Left, right
-##	- Hold onto wall
-##	- Check point (Activated when seen by guards)
-
-# World:
-##	- Guards
 
 
 
