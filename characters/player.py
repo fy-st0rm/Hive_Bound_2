@@ -117,8 +117,6 @@ class Player:
 			print("No checkpoint")
 			return False
 
-		pygame.mixer.Sound.play(jump_sound)
-		pygame.mixer.music.stop()
 		self.rect.x = self.checkpoint[0]
 		self.rect.y = self.checkpoint[1]
 		return True
