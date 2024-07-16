@@ -40,8 +40,8 @@ class Player:
 			elif event.key == pygame.K_SPACE:
 				self.movement[Dir.jump] = True
 				if self.airtime < 3:
-					pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/sounds/f_jump.wav"),maxtime=600)
 					self.vert_movement = -5
+					pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/sounds/f_jump.wav"),maxtime=600)
 			elif event.key == pygame.K_LSHIFT:
 				self.movement[Dir.stick] = True
 
@@ -191,9 +191,9 @@ class Player:
 		], 1)
 
 		# Stick animation
-		self.animator.add(Dir.right, State.stick, self.sprite.load_strip([5, 0, 18, 25], 1), 1)
+		self.animator.add(Dir.right, State.stick, self.sprite.load_strip([4, 0, 18, 25], 1), 1)
 		self.animator.add(Dir.left, State.stick, [
-			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([5, 0, 18, 25], 1)
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([4, 0, 18, 25], 1)
 		], 1)
 
 
