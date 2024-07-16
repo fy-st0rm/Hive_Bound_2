@@ -3,6 +3,7 @@ from engine import *
 from scenes.game import Game
 from scenes.menu import Menu
 from scenes.end  import End
+from scenes.story  import Story
 from scenes.controls import Controls
 
 
@@ -22,9 +23,10 @@ class Main:
 		self.scene_manager = SceneManager()
 		self.scene_manager.add("menu", Menu(self.screen, self.ui_manager, self.scene_manager))
 		self.scene_manager.add("controls", Controls(self.screen, self.scene_manager))
+		self.scene_manager.add("story", Story(self.screen, self.scene_manager))
 		self.scene_manager.add("game", Game(self.screen, self.scene_manager))
 		self.scene_manager.add("end", End(self.screen, self.scene_manager))
-		self.scene_manager.switch("menu")
+		self.scene_manager.switch("story")
 
 		self.music_button_rect = pygame.Rect(800-32, 600-32, 32, 32)
 		self.music_on_sprite  = pygame.transform.scale(Sprite.music_sprite.image_at(0, 0, 16, 16), (32, 32))

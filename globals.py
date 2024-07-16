@@ -47,6 +47,7 @@ class Sprite:
 class Font:
 	big = pygame.font.Font("assets/font.ttf", 50)
 	mid = pygame.font.Font("assets/font.ttf", 35)
+	small = pygame.font.Font("assets/font.ttf", 16)
 
 pygame.mixer.init();
 pygame.mixer.Channel(0).set_volume(1)
