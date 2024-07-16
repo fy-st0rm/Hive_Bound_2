@@ -67,6 +67,8 @@ class Menu(Scene):
 		self.quit_button.hide()
 
 	def on_entry(self):
+		global curr_music_index
+		curr_music_index = 1
 		self.start_button.show()
 		self.controls_button.show()
 		self.quit_button.show()

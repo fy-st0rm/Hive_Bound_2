@@ -72,11 +72,11 @@ class Main:
 					if self.music_on:
 						self.music_tex = self.music_off_sprite
 						self.music_on = False
-						pygame.mixer.Channel(1).pause()
+						pygame.mixer.Channel(curr_music_index).pause()
 					else:
 						self.music_tex = self.music_on_sprite
 						self.music_on = True
-						pygame.mixer.Channel(1).unpause()
+						pygame.mixer.Channel(curr_music_index).unpause()
 
 			self.scene_manager.poll_event(event)
 			self.ui_manager.process_events(event)
@@ -90,7 +90,8 @@ if __name__ == "__main__":
 	pygame.init()
 	main = Main(WIN_WIDTH, WIN_HEIGHT, FPS)
 	pygame.mixer.music.load(os.path.join(os.getcwd(),'assets/sounds','f_background.mp3'))
-	pygame.mixer.Channel(1).play(pygame.mixer.Sound('assets/sounds/f_background.mp3'), loops=-1)
+	pygame.mixer.music.load(os.path.join(os.getcwd(),'assets/sounds','end_song.mp3'))
+	pygame.mixer.Channel(curr_music_index).play(pygame.mixer.Sound('assets/sounds/f_background.mp3'), loops=-1)
 	main.run()
 	main.quit()
 

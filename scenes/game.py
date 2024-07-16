@@ -58,10 +58,10 @@ class Game(Scene):
 			(0, 1500 - 128), 5, 2, 30, 200)
 
 	def on_entry(self):
-		print("Entered game")
+		pass
 
 	def on_exit(self):
-		print("Game exited")
+		pass
 
 	def on_event(self, event: pygame.event.Event):
 		self.player.event(event)
@@ -133,13 +133,6 @@ class Game(Scene):
 		# Ending
 		if self.player.rect.y < 50:
 			self.scene_manager.switch("end")
-
-		# for r in self.map["rects"]:
-		# 	pygame.draw.rect(
-		# 		self.game_surface,
-		# 		[255, 0, 0],
-		# 		[r.x - self.camera[0], r.y - self.camera[1], r.w, r.h]
-		# 	)
 
 		self.surface.blit(
 			pygame.transform.scale(

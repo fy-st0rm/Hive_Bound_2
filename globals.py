@@ -5,6 +5,8 @@ import os
 pygame.init()
 pygame.font.init()
 
+curr_music_index = 1
+
 
 WIN_WIDTH  = 800
 WIN_HEIGHT = 600
@@ -43,6 +45,11 @@ class Sprite:
 		(90 * 5, 35 * 5)
 	)
 	music_sprite = SpriteSheet("assets/music.png")
+	end_sprite = pygame.transform.scale(
+		pygame.image.load("assets/end_scene.png"),
+		(160 * 2, 90 * 2)
+	)
+	end_pl_sprite = pygame.image.load("assets/end_scene_player.png")
 
 class Font:
 	big = pygame.font.Font("assets/font.ttf", 50)
