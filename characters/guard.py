@@ -72,6 +72,7 @@ class Guard:
 		if self.dir == Dir.right:
 			self.head = [self.rect.x + self.rect.w / 2, self.rect.y]
 			self.half_ang = (self.fov / 2) * (math.pi / 180)
+
 		else:
 			self.head = [self.rect.x + self.rect.w / 2, self.rect.y]
 			self.half_ang = math.pi - ((self.fov / 2) * (math.pi / 180))
@@ -110,6 +111,7 @@ class Guard:
 			(x - camera[0], y1 - camera[1]),
 			(x - camera[0], y2 - camera[1])
 		]
+        
 
 		return collideRectPolygon(target_rect, polygon)
 
