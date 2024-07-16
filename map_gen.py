@@ -67,14 +67,14 @@ for map in maps:
 	map_path = f"./assets/map_imgs/{map}"
 
 	sheet = SpriteSheet(map_path)
-	rect_image = sheet.image_at(0, 1, 300, 1500)
+	rect_image = sheet.image_at(0, 1, 300, 1800)
 	rect_image = pygame.transform.flip(rect_image, True, False)
 	rect_image = pygame.transform.rotate(rect_image, 90)
 	rect_image_data = pygame.surfarray.array3d(rect_image)
 
 	rects = get_rects(rect_image_data)
 
-	guard_image = sheet.image_at(0, 2, 300, 1500)
+	guard_image = sheet.image_at(0, 2, 300, 1800)
 	guard_pos = get_guard_pos(guard_image)
 
 	map_data = {

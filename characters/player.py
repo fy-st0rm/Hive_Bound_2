@@ -40,8 +40,8 @@ class Player:
 			elif event.key == pygame.K_SPACE:
 				self.movement[Dir.jump] = True
 				if self.airtime < 3:
-						self.vert_movement = -5
-						pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/sounds/f_jump.wav"),maxtime=600)
+					self.vert_movement = -5
+					pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/sounds/f_jump.wav"),maxtime=600)
 			elif event.key == pygame.K_LSHIFT:
 				self.movement[Dir.stick] = True
 
@@ -53,6 +53,14 @@ class Player:
 			elif event.key == pygame.K_SPACE:
 				self.movement[Dir.jump] = False
 			elif event.key == pygame.K_LSHIFT:
+				self.movement[Dir.stick] = False
+
+		elif event.type == pygame.MOUSEBUTTONDOWN:
+			if pygame.mouse.get_pressed()[0]:
+				self.movement[Dir.stick] = True
+
+		elif event.type == pygame.MOUSEBUTTONUP:
+			if not pygame.mouse.get_pressed()[0]:
 				self.movement[Dir.stick] = False
 
 	def update(
@@ -171,9 +179,9 @@ class Player:
 		], 1)
 
 		# Walk animation
-		self.animator.add(Dir.right, State.walk, self.sprite.load_strip([3, 0, 18, 25], 2), 1)
+		self.animator.add(Dir.right, State.walk, self.sprite.load_strip([2, 0, 18, 25], 2), 1)
 		self.animator.add(Dir.left, State.walk, [
-			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([3, 0, 18, 25], 2)
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([2, 0, 18, 25], 2)
 		], 1)
 
 		# Jump ascent animation
@@ -183,9 +191,9 @@ class Player:
 		], 1)
 
 		# Stick animation
-		self.animator.add(Dir.right, State.stick, self.sprite.load_strip([5, 0, 18, 25], 1), 1)
+		self.animator.add(Dir.right, State.stick, self.sprite.load_strip([4, 0, 18, 25], 1), 1)
 		self.animator.add(Dir.left, State.stick, [
-			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([5, 0, 18, 25], 1)
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([4, 0, 18, 25], 1)
 		], 1)
 
 

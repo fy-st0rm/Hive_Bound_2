@@ -25,25 +25,34 @@ class Menu(Scene):
 			manager = self.ui_manager
 		)
 
-		self.quit_button = pygame_gui.elements.UIButton(
+		self.controls_button = pygame_gui.elements.UIButton(
 			relative_rect = pygame.Rect(WIN_WIDTH / 2 - 200 / 2, 375, 200, 50),
+			text = "Controls",
+			manager = self.ui_manager
+		)
+
+		self.quit_button = pygame_gui.elements.UIButton(
+			relative_rect = pygame.Rect(WIN_WIDTH / 2 - 200 / 2, 475, 200, 50),
 			text = "Quit",
 			manager = self.ui_manager
 		)
 
 		self.title.hide()
 		self.start_button.hide()
+		self.controls_button.hide()
 		self.quit_button.hide()
 
 	def on_entry(self):
 		self.title.show()
 		self.start_button.show()
+		self.controls_button.show()
 		self.quit_button.show()
 		pygame.mixer.Channel(1).pause()
 
 	def on_exit(self):
 		self.title.hide()
 		self.start_button.hide()
+		self.controls_button.hide()
 		self.quit_button.hide()
 		pygame.mixer.Channel(1).unpause()
 
@@ -51,6 +60,8 @@ class Menu(Scene):
 		if event.type == pygame_gui.UI_BUTTON_PRESSED:
 			if event.ui_element == self.start_button:
 				self.scene_manager.switch("game")
+			elif event.ui_element == self.controls_button:
+				self.scene_manager.switch("controls")
 			elif event.ui_element == self.quit_button:
 				pygame.event.post(pygame.event.Event(pygame.QUIT))
 
