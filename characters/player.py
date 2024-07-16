@@ -171,9 +171,9 @@ class Player:
 		], 1)
 
 		# Walk animation
-		self.animator.add(Dir.right, State.walk, self.sprite.load_strip([3, 0, 18, 25], 2), 1)
+		self.animator.add(Dir.right, State.walk, self.sprite.load_strip([2, 0, 18, 25], 2), 1)
 		self.animator.add(Dir.left, State.walk, [
-			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([3, 0, 18, 25], 2)
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([2, 0, 18, 25], 2)
 		], 1)
 
 		# Jump ascent animation
@@ -183,9 +183,9 @@ class Player:
 		], 1)
 
 		# Stick animation
-		self.animator.add(Dir.right, State.stick, self.sprite.load_strip([5, 0, 18, 25], 1), 1)
+		self.animator.add(Dir.right, State.stick, self.sprite.load_strip([4, 0, 18, 25], 1), 1)
 		self.animator.add(Dir.left, State.stick, [
-			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([5, 0, 18, 25], 1)
+			pygame.transform.flip(i, True, False) for i in self.sprite.load_strip([4, 0, 18, 25], 1)
 		], 1)
 
 
