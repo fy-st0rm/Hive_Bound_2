@@ -5,6 +5,7 @@ from characters import *
 
 FREE_CAMERA = False
 
+
 class Game(Scene):
 	def __init__(self, surface: pygame.Surface, scene_manager: SceneManager):
 		self.surface = surface
@@ -30,7 +31,8 @@ class Game(Scene):
 		self.player.checkpoint = self.checkpoint
 
 		self.left = self.right = self.up = self.down = False
-        
+		pygame.mixer.Channel(1).play(pygame.mixer.Sound('assets/sounds/f_background.mp3'), loops=-1)
+
         #loading sound
         
 
