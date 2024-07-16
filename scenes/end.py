@@ -25,6 +25,10 @@ class End(Scene):
 		self.alpha = 255
 		self.bg_h = 0
 		self.pl_h = 0
+		self.t_h = 0
+
+		self.text = "Game By:\nshri-acha\nFuNk-y0u\nfy-st0rm\n"
+		self.text_tex = Font.small.render(self.text, False, (255, 255, 255))
 
 	def on_entry(self):
 		global curr_music_index
@@ -61,6 +65,11 @@ class End(Scene):
 		self.game_surface.blit(
 			Sprite.end_pl_sprite,
 			(0,100 + self.pl_h)
+		)
+
+		self.game_surface.blit(
+			self.text_tex,
+			(SURFACE_WIDTH / 2 - self.text_tex.get_width() / 2, 100)
 		)
 
 		self.surface.blit(
