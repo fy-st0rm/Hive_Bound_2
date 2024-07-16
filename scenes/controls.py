@@ -23,7 +23,14 @@ class Controls(Scene):
 				self.scene_manager.switch("menu")
 
 	def on_update(self, dt: float):
-		self.surface.fill((0, 0, 0))
+		self.surface.fill((22, 61, 74))
+
+		pygame.draw.rect(
+			self.surface,
+			(48, 98, 109),
+			(100, 200, 580, 370),
+			border_radius = 10
+		)
 
 		title_tex = Font.big.render("Controls", False, (255, 255, 255))
 		self.surface.blit(

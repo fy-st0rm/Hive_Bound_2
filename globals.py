@@ -38,7 +38,10 @@ class Sprite:
 	space_key_sprite = pygame.image.load("assets/keys/Space-Key.png")
 	shift_key_sprite = pygame.image.load("assets/keys/Shift-Key.png")
 	escape_key_sprite = pygame.image.load("assets/keys/Esc-Key.png")
-
+	title_sprite = pygame.transform.scale(
+		pygame.image.load("assets/title.png"),
+		(90 * 5, 35 * 5)
+	)
 
 class Font:
 	big = pygame.font.Font("assets/font.ttf", 50)
