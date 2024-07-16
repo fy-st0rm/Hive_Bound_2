@@ -40,8 +40,8 @@ class Player:
 			elif event.key == pygame.K_SPACE:
 				self.movement[Dir.jump] = True
 				pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/sounds/f_jump.wav"),maxtime=600)
-			if self.airtime < 3:
-					self.vert_movement = -5
+				if self.airtime < 3:
+						self.vert_movement = -5
 			elif event.key == pygame.K_LSHIFT:
 				self.movement[Dir.stick] = True
 
@@ -111,6 +111,8 @@ class Player:
 		)
 
 	def jump_to_checkpoint(self) -> bool:
+
+		pygame.mixer.Channel(2).play(pygame.mixer.Sound("assets/sounds/f_teleport.wav"),maxtime=600)
 		if not self.checkpoint:
 			print("No checkpoint")
 			return False
