@@ -26,6 +26,12 @@ class Main:
 		self.scene_manager.add("end", End(self.screen, self.scene_manager))
 		self.scene_manager.switch("menu")
 
+		self.music_button_rect = pygame.Rect(800-32, 600-32, 32, 32)
+		self.music_on_sprite  = pygame.transform.scale(Sprite.music_sprite.image_at(0, 0, 16, 16), (32, 32))
+		self.music_off_sprite = pygame.transform.scale(Sprite.music_sprite.image_at(1, 0, 16, 16), (32, 32))
+		self.music_tex = self.music_on_sprite
+		self.music_on = True
+
 	def run(self):
 		last_time = time.time()
 		while self.running:
@@ -43,8 +49,12 @@ class Main:
 
 			self.scene_manager.update(t)
 			self.ui_manager.update(t)
-			# print(t)
 			self.ui_manager.draw_ui(self.screen)
+
+			self.screen.blit(
+				self.music_tex,
+				(self.music_button_rect.x, self.music_button_rect.y)
+			)
 
 			pygame.display.update()
 
@@ -52,6 +62,20 @@ class Main:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.running = False
+
+			# Music toggle
+			if event.type == pygame.MOUSEBUTTONDOWN:
+				mp = pygame.mouse.get_pos()
+				if self.music_button_rect.collidepoint(mp) and pygame.mouse.get_pressed()[0]:
+					if self.music_on:
+						self.music_tex = self.music_off_sprite
+						self.music_on = False
+						pygame.mixer.Channel(1).pause()
+					else:
+						self.music_tex = self.music_on_sprite
+						self.music_on = True
+						pygame.mixer.Channel(1).unpause()
+
 			self.scene_manager.poll_event(event)
 			self.ui_manager.process_events(event)
 
@@ -62,8 +86,9 @@ class Main:
 if __name__ == "__main__":
 
 	pygame.init()
-	main = Main(WIN_WIDTH, WIN_HEIGHT, FPS)    
+	main = Main(WIN_WIDTH, WIN_HEIGHT, FPS)
 	pygame.mixer.music.load(os.path.join(os.getcwd(),'assets/sounds','f_background.mp3'))
+	pygame.mixer.Channel(1).play(pygame.mixer.Sound('assets/sounds/f_background.mp3'), loops=-1)
 	main.run()
 	main.quit()
 

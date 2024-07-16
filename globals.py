@@ -42,6 +42,7 @@ class Sprite:
 		pygame.image.load("assets/title.png"),
 		(90 * 5, 35 * 5)
 	)
+	music_sprite = SpriteSheet("assets/music.png")
 
 class Font:
 	big = pygame.font.Font("assets/font.ttf", 50)

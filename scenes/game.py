@@ -30,7 +30,6 @@ class Game(Scene):
 		self.player.checkpoint = self.checkpoint
 
 		self.left = self.right = self.up = self.down = False
-		pygame.mixer.Channel(1).play(pygame.mixer.Sound('assets/sounds/f_background.mp3'), loops=-1)
 
 		# Loading map
 		with open("./assets/map/map.json", "r") as f:
