@@ -20,8 +20,7 @@ class Main:
 		self.scene_manager = SceneManager()
 		self.scene_manager.add("menu", Menu(self.screen, self.ui_manager, self.scene_manager))
 		self.scene_manager.add("game", Game(self.screen, self.scene_manager))
-		self.scene_manager.switch("game")
-
+		self.scene_manager.switch("menu")
 	def run(self):
 		last_time = time.time()
 		while self.running:
@@ -59,8 +58,9 @@ class Main:
 if __name__ == "__main__":
 
 	pygame.init()
-	main = Main(WIN_WIDTH, WIN_HEIGHT, FPS)
+	main = Main(WIN_WIDTH, WIN_HEIGHT, FPS)    
 	pygame.mixer.music.load(os.path.join(os.getcwd(),'assets/sounds','f_background.mp3'))
 	pygame.mixer.Channel(1).play(pygame.mixer.Sound('assets/sounds/f_background.mp3'), loops=-1)
 	main.run()
 	main.quit()
+

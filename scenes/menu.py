@@ -39,11 +39,13 @@ class Menu(Scene):
 		self.title.show()
 		self.start_button.show()
 		self.quit_button.show()
+		pygame.mixer.Channel(1).pause()
 
 	def on_exit(self):
 		self.title.hide()
 		self.start_button.hide()
 		self.quit_button.hide()
+		pygame.mixer.Channel(1).unpause()
 
 	def on_event(self, event: pygame.event.Event):
 		if event.type == pygame_gui.UI_BUTTON_PRESSED:

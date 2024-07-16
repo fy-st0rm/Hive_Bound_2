@@ -39,9 +39,9 @@ class Player:
 				self.movement[Dir.right] = True
 			elif event.key == pygame.K_SPACE:
 				self.movement[Dir.jump] = True
-				pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/sounds/f_jump.wav"),maxtime=600)
 				if self.airtime < 3:
 						self.vert_movement = -5
+						pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/sounds/f_jump.wav"),maxtime=600)
 			elif event.key == pygame.K_LSHIFT:
 				self.movement[Dir.stick] = True
 
